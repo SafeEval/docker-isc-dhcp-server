@@ -1,0 +1,19 @@
+version: '3'
+services:
+  dhcpd:
+    # docker-compose settings
+    build: .
+    container_name: isc-dhcp-server
+    network_mode: "host"
+    # docker swarm settings
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+    # general settings
+    image: isc-dhcp-server
+    ports:
+      - "67/udp"
+    volumes:
+      - ./dhcpd:/data/dhcpd
+    restart: always
